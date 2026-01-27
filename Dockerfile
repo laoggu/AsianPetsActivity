@@ -8,8 +8,9 @@ COPY build.gradle .
 COPY settings.gradle .
 COPY src ./src
 RUN chmod +x ./gradlew
-RUN ./gradlew build -x verify -x test --no-daemon
-
+# 使用腾讯云镜像替换 Gradle 下载地址
+RUN sed -i 's|https\\://services.gradle.org/distributions/|https\\://mirrors.cloud.tencent.com/gradle/|g' gradle/wrapper/gradle-wrapper.properties
+RUN ./gradlew build -x test --no-daemon
 # 运行阶段
 FROM eclipse-temurin:17-jre-focal
 WORKDIR /app
