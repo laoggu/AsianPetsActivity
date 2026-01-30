@@ -17,14 +17,14 @@ services:
       dockerfile: Dockerfile
     expose:
       - "8081"
-    depends_on:
-      - db
     env_file:
       - .env
     environment:
       - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/asian_pets_system
+      # 修改为连接服务器本地 MySQL
+      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/asian_pets_system?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=111111
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SERVER_PORT=8081
@@ -32,25 +32,6 @@ services:
     networks:
       - asianpets-network
     restart: unless-stopped
-
-  db:
-    image: mysql:8.0
-    container_name: asian_pets_db
-    restart: always
-    env_file:
-      - .env
-    volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      - asianpets-network
-    command: --default-authentication-plugin=111111
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
-
-volumes:
-  mysql_data:
 
 networks:
   asianpets-network:
