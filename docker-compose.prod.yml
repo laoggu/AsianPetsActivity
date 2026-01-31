@@ -1,10 +1,14 @@
+version: '3.8'
+
 services:
   nginx:
     image: nginx:alpine
     ports:
       - "80:80"
+      - "443:443"  # 如果需要HTTPS
     volumes:
       - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/logs:/var/log/nginx
     depends_on:
       - app
     networks:
@@ -15,23 +19,31 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    expose:
-      - "8081"
+    ports:
+      - "8081:8081"  # 映射端口便于调试
     env_file:
       - .env
     environment:
       - SPRING_PROFILES_ACTIVE=prod
-      # 修改为连接服务器本地 MySQL
-      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/asian_pets_system?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+      # 连接服务器本地数据库
+      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/asian_pets_system
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=111111
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SERVER_PORT=8081
       - JWT_SECRET=${JWT_SECRET}
+      - LOGGING_LEVEL_ROOT=INFO
     networks:
       - asianpets-network
     restart: unless-stopped
+    # 健康检查
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
 
 networks:
   asianpets-network:

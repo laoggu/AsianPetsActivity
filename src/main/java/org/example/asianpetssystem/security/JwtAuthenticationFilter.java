@@ -4,6 +4,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +21,8 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
@@ -31,26 +35,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             String jwt = parseJwt(request);
+            String requestURI = request.getRequestURI();
+            String method = request.getMethod();
+            
+            logger.debug("开始JWT认证过滤 - URI: {}, Method: {}", requestURI, method);
+            
             if (jwt != null && jwtTokenProvider.validateToken(jwt)) {
-                String username = jwtTokenProvider.extractUsername(jwt);
-
+                String username = jwtTokenProvider.getUsernameFromToken(jwt);
+                
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-                // 再使用带用户详情的验证方法
-                if (jwtTokenProvider.validateToken(jwt, userDetails)) {
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
-
-                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
-                }
+                UsernamePasswordAuthenticationToken authentication = 
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                
+                logger.info("JWT认证成功 - 用户名: {}, URI: {}, Method: {}", username, requestURI, method);
+            } else {
+                logger.debug("JWT令牌无效或不存在 - URI: {}, Method: {}", requestURI, method);
             }
-        } catch (Exception e) {
-            logger.error("Cannot set user authentication: {}", e);
-        }
 
-        filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response);
+            
+        } catch (Exception e) {
+            logger.error("JWT认证过程中发生错误 - URI: {}, 错误: {}", request.getRequestURI(), e.getMessage(), e);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "认证失败");
+        }
     }
 
     private String parseJwt(HttpServletRequest request) {

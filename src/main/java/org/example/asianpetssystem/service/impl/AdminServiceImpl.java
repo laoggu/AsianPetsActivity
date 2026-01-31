@@ -12,10 +12,12 @@ import org.example.asianpetssystem.repository.AdminUserRepository;
 import org.example.asianpetssystem.repository.AuditLogRepository;
 import org.example.asianpetssystem.repository.ContactRepository;
 import org.example.asianpetssystem.repository.MemberRepository;
-import org.example.asianpetssystem.security.AuthenticationFacade; // 新增依赖
+import org.example.asianpetssystem.security.AuthenticationFacade;
 import org.example.asianpetssystem.service.AdminService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -35,6 +37,8 @@ import java.util.stream.Collectors;
 @Transactional
 public class AdminServiceImpl implements AdminService {
 
+    private static final Logger logger = LoggerFactory.getLogger(AdminServiceImpl.class);
+
     @Autowired
     private MemberRepository memberRepository;
 
@@ -48,58 +52,87 @@ public class AdminServiceImpl implements AdminService {
     private AdminUserRepository adminUserRepository;
 
     @Autowired
-    private AuthenticationFacade authenticationFacade; // 注入认证门面
+    private AuthenticationFacade authenticationFacade;
 
     @Override
     public List<ApplyListResponse> getPendingApplications(int page, int size, String status) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Member> members;
+        logger.info("开始获取待审核申请列表 - page={}, size={}, status={}", page, size, status);
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Member> members;
 
-        if (status != null && !status.isEmpty()) {
-            MemberStatus memberStatus = MemberStatus.valueOf(status.toUpperCase());
-            members = memberRepository.findByStatus(memberStatus, pageable);
-        } else {
-            members = memberRepository.findByStatus(MemberStatus.PENDING, pageable);
+            if (status != null && !status.isEmpty()) {
+                MemberStatus memberStatus = MemberStatus.valueOf(status.toUpperCase());
+                members = memberRepository.findByStatus(memberStatus, pageable);
+            } else {
+                members = memberRepository.findByStatus(MemberStatus.PENDING, pageable);
+            }
+
+            List<ApplyListResponse> result = members.getContent().stream()
+                    .map(this::convertToApplyListResponse)
+                    .collect(Collectors.toList());
+            
+            long duration = System.currentTimeMillis() - startTime;
+            logger.info("获取待审核申请列表成功 - 返回 {} 条记录, 耗时: {}ms", result.size(), duration);
+            return result;
+        } catch (Exception e) {
+            long duration = System.currentTimeMillis() - startTime;
+            logger.error("获取待审核申请列表失败 - 耗时: {}ms, 错误: {}", duration, e.getMessage(), e);
+            throw e;
         }
-
-        return members.getContent().stream()
-                .map(this::convertToApplyListResponse)
-                .collect(Collectors.toList());
     }
 
     @Override
     public void auditApplication(Long id, AuditRequest request) {
-        Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(BusinessErrorEnum.MEMBER_NOT_FOUND));
+        logger.info("开始审核会员申请 - ID={}, 操作={}", id, request.getAction());
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            Member member = memberRepository.findById(id)
+                    .orElseThrow(() -> new BusinessException(BusinessErrorEnum.MEMBER_NOT_FOUND));
 
-        // 获取当前操作员ID
-        Long operatorId = getCurrentOperatorId();
+            // 获取当前操作员ID
+            Long operatorId = getCurrentOperatorId();
 
-        // 根据审核操作更新会员状态
-        switch (request.getAction()) {
-            case APPROVE:
-                member.setStatus(MemberStatus.APPROVED);
-                member.setLevel(MemberLevel.REGULAR); // 新会员默认普通会员
-                member.setExpireAt(LocalDateTime.now().plusYears(1)); // 默认一年有效期
-                break;
-            case REJECT:
-                member.setStatus(MemberStatus.REJECTED);
-                break;
-            case SUPPLEMENT:
-                member.setStatus(MemberStatus.PENDING); // 保持待审核状态，等待补充材料
-                break;
+            // 根据审核操作更新会员状态
+            switch (request.getAction()) {
+                case APPROVE:
+                    member.setStatus(MemberStatus.APPROVED);
+                    member.setLevel(MemberLevel.REGULAR);
+                    member.setExpireAt(LocalDateTime.now().plusYears(1));
+                    logger.info("会员申请审批通过 - ID={}, 操作员ID={}", id, operatorId);
+                    break;
+                case REJECT:
+                    member.setStatus(MemberStatus.REJECTED);
+                    logger.info("会员申请被拒绝 - ID={}, 操作员ID={}", id, operatorId);
+                    break;
+                case SUPPLEMENT:
+                    member.setStatus(MemberStatus.PENDING);
+                    logger.info("要求会员补充材料 - ID={}, 操作员ID={}", id, operatorId);
+                    break;
+            }
+
+            memberRepository.save(member);
+
+            // 记录审核日志
+            AuditLog auditLog = new AuditLog();
+            auditLog.setMemberId(member.getId());
+            auditLog.setOperatorId(operatorId);
+            auditLog.setAction(request.getAction());
+            auditLog.setRemark(request.getRemark());
+            auditLog.setCreatedAt(LocalDateTime.now());
+            auditLogRepository.save(auditLog);
+            
+            long duration = System.currentTimeMillis() - startTime;
+            logger.info("会员申请审核完成 - ID={}, 操作={}, 耗时: {}ms", id, request.getAction(), duration);
+        } catch (Exception e) {
+            long duration = System.currentTimeMillis() - startTime;
+            logger.error("会员申请审核失败 - ID={}, 操作={}, 耗时: {}ms, 错误: {}", 
+                        id, request.getAction(), duration, e.getMessage(), e);
+            throw e;
         }
-
-        memberRepository.save(member);
-
-        // 记录审核日志
-        AuditLog auditLog = new AuditLog();
-        auditLog.setMemberId(member.getId());
-        auditLog.setOperatorId(operatorId); // 使用从安全上下文获取的操作员ID
-        auditLog.setAction(request.getAction());
-        auditLog.setRemark(request.getRemark());
-        auditLog.setCreatedAt(LocalDateTime.now());
-        auditLogRepository.save(auditLog);
     }
 
     @Override
@@ -129,8 +162,6 @@ public class AdminServiceImpl implements AdminService {
                 row.createCell(4).setCellValue(member.getStatus() != null ? member.getStatus().getCode() : "");
                 row.createCell(5).setCellValue(member.getExpireAt() != null ? member.getExpireAt().toString() : "");
                 row.createCell(6).setCellValue(member.getCreatedAt() != null ? member.getCreatedAt().toString() : "");
-
-                // 添加更新时间列
                 row.createCell(7).setCellValue(member.getUpdatedAt() != null ? member.getUpdatedAt().toString() : "");
             }
 
@@ -151,30 +182,65 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void deleteMember(Long id) {
-        Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(BusinessErrorEnum.MEMBER_NOT_FOUND));
+        logger.info("开始删除会员 - ID={}", id);
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            Member member = memberRepository.findById(id)
+                    .orElseThrow(() -> new BusinessException(BusinessErrorEnum.MEMBER_NOT_FOUND));
 
-        // 逻辑删除：更新状态为已暂停（实际业务中可能需要专门的删除状态）
-        member.setStatus(MemberStatus.SUSPENDED);
-        memberRepository.save(member);
+            member.setStatus(MemberStatus.SUSPENDED);
+            memberRepository.save(member);
+            
+            long duration = System.currentTimeMillis() - startTime;
+            logger.info("会员删除成功 - ID={}, 公司名称: {}, 耗时: {}ms", id, member.getCompanyName(), duration);
+        } catch (Exception e) {
+            long duration = System.currentTimeMillis() - startTime;
+            logger.error("会员删除失败 - ID={}, 耗时: {}ms, 错误: {}", id, duration, e.getMessage(), e);
+            throw e;
+        }
     }
 
     @Override
     public void suspendMember(Long id) {
-        Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(BusinessErrorEnum.MEMBER_NOT_FOUND));
+        logger.info("开始暂停会员资格 - ID={}", id);
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            Member member = memberRepository.findById(id)
+                    .orElseThrow(() -> new BusinessException(BusinessErrorEnum.MEMBER_NOT_FOUND));
 
-        member.setStatus(MemberStatus.SUSPENDED);
-        memberRepository.save(member);
+            member.setStatus(MemberStatus.SUSPENDED);
+            memberRepository.save(member);
+            
+            long duration = System.currentTimeMillis() - startTime;
+            logger.info("会员资格暂停成功 - ID={}, 公司名称: {}, 耗时: {}ms", id, member.getCompanyName(), duration);
+        } catch (Exception e) {
+            long duration = System.currentTimeMillis() - startTime;
+            logger.error("会员资格暂停失败 - ID={}, 耗时: {}ms, 错误: {}", id, duration, e.getMessage(), e);
+            throw e;
+        }
     }
 
     @Override
     public void activateMember(Long id) {
-        Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(BusinessErrorEnum.MEMBER_NOT_FOUND));
+        logger.info("开始激活会员资格 - ID={}", id);
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            Member member = memberRepository.findById(id)
+                    .orElseThrow(() -> new BusinessException(BusinessErrorEnum.MEMBER_NOT_FOUND));
 
-        member.setStatus(MemberStatus.APPROVED);
-        memberRepository.save(member);
+            member.setStatus(MemberStatus.APPROVED);
+            memberRepository.save(member);
+            
+            long duration = System.currentTimeMillis() - startTime;
+            logger.info("会员资格激活成功 - ID={}, 公司名称: {}, 耗时: {}ms", id, member.getCompanyName(), duration);
+        } catch (Exception e) {
+            long duration = System.currentTimeMillis() - startTime;
+            logger.error("会员资格激活失败 - ID={}, 耗时: {}ms, 错误: {}", id, duration, e.getMessage(), e);
+            throw e;
+        }
     }
 
     /**
