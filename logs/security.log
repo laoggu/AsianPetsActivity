@@ -1,0 +1,56 @@
+2026-01-31 16:02:33.737 [main] DEBUG [o.e.a.security.JwtAuthenticationFilter] - Filter 'jwtAuthenticationFilter' configured for use
+2026-01-31 16:03:09.814 [http-nio-8081-exec-1] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /swagger-ui.html, Method: GET
+2026-01-31 16:03:09.814 [http-nio-8081-exec-1] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /swagger-ui.html, Method: GET
+2026-01-31 16:03:11.293 [http-nio-8081-exec-2] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /swagger-ui.html, Method: GET
+2026-01-31 16:03:11.294 [http-nio-8081-exec-2] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /swagger-ui.html, Method: GET
+2026-01-31 16:03:37.659 [main] DEBUG [o.e.a.security.JwtAuthenticationFilter] - Filter 'jwtAuthenticationFilter' configured for use
+2026-01-31 16:03:57.091 [http-nio-8081-exec-1] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /swagger-ui.html, Method: GET
+2026-01-31 16:03:57.092 [http-nio-8081-exec-1] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /swagger-ui.html, Method: GET
+2026-01-31 16:04:03.465 [http-nio-8081-exec-2] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /swagger-ui.html, Method: GET
+2026-01-31 16:04:03.466 [http-nio-8081-exec-2] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /swagger-ui.html, Method: GET
+2026-01-31 16:04:56.244 [main] DEBUG [o.e.a.security.JwtAuthenticationFilter] - Filter 'jwtAuthenticationFilter' configured for use
+2026-01-31 16:05:01.970 [http-nio-8081-exec-1] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /swagger-ui/index.htm, Method: GET
+2026-01-31 16:05:01.971 [http-nio-8081-exec-1] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /swagger-ui/index.htm, Method: GET
+2026-01-31 16:05:02.750 [http-nio-8081-exec-2] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /favicon.ico, Method: GET
+2026-01-31 16:05:02.751 [http-nio-8081-exec-2] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /favicon.ico, Method: GET
+2026-01-31 16:05:15.266 [http-nio-8081-exec-3] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /swagger-ui/index.htm, Method: GET
+2026-01-31 16:05:15.266 [http-nio-8081-exec-3] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /swagger-ui/index.htm, Method: GET
+2026-01-31 16:05:15.675 [http-nio-8081-exec-5] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /favicon.ico, Method: GET
+2026-01-31 16:05:15.675 [http-nio-8081-exec-5] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /favicon.ico, Method: GET
+2026-01-31 16:05:43.373 [http-nio-8081-exec-7] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /swagger-ui/index.html, Method: GET
+2026-01-31 16:05:43.374 [http-nio-8081-exec-7] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /swagger-ui/index.html, Method: GET
+2026-01-31 16:06:04.934 [main] DEBUG [o.e.a.security.JwtAuthenticationFilter] - Filter 'jwtAuthenticationFilter' configured for use
+2026-01-31 16:06:41.611 [http-nio-8081-exec-1] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /v3/api-docs, Method: GET
+2026-01-31 16:06:41.611 [http-nio-8081-exec-1] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /v3/api-docs, Method: GET
+2026-01-31 16:06:46.307 [http-nio-8081-exec-2] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /swagger-ui/index.html, Method: GET
+2026-01-31 16:06:46.307 [http-nio-8081-exec-2] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /swagger-ui/index.html, Method: GET
+2026-01-31 16:08:31.323 [main] DEBUG [o.e.a.security.JwtAuthenticationFilter] - Filter 'jwtAuthenticationFilter' configured for use
+2026-01-31 16:08:50.876 [main] DEBUG [o.e.a.security.JwtAuthenticationFilter] - Filter 'jwtAuthenticationFilter' configured for use
+2026-01-31 16:09:36.109 [main] DEBUG [o.e.a.security.JwtAuthenticationFilter] - Filter 'jwtAuthenticationFilter' configured for use
+2026-01-31 16:10:09.242 [http-nio-8081-exec-1] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /swagger-ui/index.html, Method: GET
+2026-01-31 16:10:09.243 [http-nio-8081-exec-1] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /swagger-ui/index.html, Method: GET
+2026-01-31 16:10:09.351 [http-nio-8081-exec-2] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /swagger-ui/swagger-ui.css, Method: GET
+2026-01-31 16:10:09.351 [http-nio-8081-exec-2] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /swagger-ui/swagger-ui.css, Method: GET
+2026-01-31 16:10:09.363 [http-nio-8081-exec-4] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /swagger-ui/index.css, Method: GET
+2026-01-31 16:10:09.364 [http-nio-8081-exec-4] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /swagger-ui/index.css, Method: GET
+2026-01-31 16:10:09.369 [http-nio-8081-exec-6] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /swagger-ui/swagger-ui-bundle.js, Method: GET
+2026-01-31 16:10:09.369 [http-nio-8081-exec-6] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /swagger-ui/swagger-ui-bundle.js, Method: GET
+2026-01-31 16:10:09.373 [http-nio-8081-exec-8] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /swagger-ui/swagger-ui-standalone-preset.js, Method: GET
+2026-01-31 16:10:09.374 [http-nio-8081-exec-3] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /swagger-ui/swagger-initializer.js, Method: GET
+2026-01-31 16:10:09.374 [http-nio-8081-exec-8] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /swagger-ui/swagger-ui-standalone-preset.js, Method: GET
+2026-01-31 16:10:09.374 [http-nio-8081-exec-3] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /swagger-ui/swagger-initializer.js, Method: GET
+2026-01-31 16:10:10.164 [http-nio-8081-exec-5] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /swagger-ui/favicon-32x32.png, Method: GET
+2026-01-31 16:10:10.164 [http-nio-8081-exec-7] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /v3/api-docs/swagger-config, Method: GET
+2026-01-31 16:10:10.164 [http-nio-8081-exec-5] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /swagger-ui/favicon-32x32.png, Method: GET
+2026-01-31 16:10:10.164 [http-nio-8081-exec-7] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /v3/api-docs/swagger-config, Method: GET
+2026-01-31 16:10:10.203 [http-nio-8081-exec-9] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /v3/api-docs, Method: GET
+2026-01-31 16:10:10.204 [http-nio-8081-exec-9] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /v3/api-docs, Method: GET
+2026-01-31 16:10:18.126 [http-nio-8081-exec-4] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /v3/api-docs, Method: GET
+2026-01-31 16:10:18.126 [http-nio-8081-exec-4] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /v3/api-docs, Method: GET
+2026-01-31 16:10:18.796 [http-nio-8081-exec-8] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /favicon.ico, Method: GET
+2026-01-31 16:10:18.796 [http-nio-8081-exec-8] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /favicon.ico, Method: GET
+2026-01-31 16:13:08.828 [main] DEBUG [o.e.a.security.JwtAuthenticationFilter] - Filter 'jwtAuthenticationFilter' configured for use
+2026-01-31 16:13:10.520 [http-nio-8081-exec-2] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /v3/api-docs, Method: GET
+2026-01-31 16:13:10.521 [http-nio-8081-exec-2] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /v3/api-docs, Method: GET
+2026-01-31 16:13:11.698 [http-nio-8081-exec-1] DEBUG [o.e.a.security.JwtAuthenticationFilter] - 开始JWT认证过滤 - URI: /favicon.ico, Method: GET
+2026-01-31 16:13:11.699 [http-nio-8081-exec-1] DEBUG [o.e.a.security.JwtAuthenticationFilter] - JWT令牌无效或不存在 - URI: /favicon.ico, Method: GET
