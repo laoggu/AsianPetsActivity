@@ -31,6 +31,10 @@ FROM eclipse-temurin:17-jre-focal
 
 WORKDIR /app
 
+# 创建日志目录并设置权限
+RUN mkdir -p /app/logs && \
+    chmod 777 /app/logs
+
 # 创建非root用户
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 
@@ -38,7 +42,8 @@ RUN groupadd -r appuser && useradd -r -g appuser appuser
 COPY --from=builder /app/build/libs/*.jar app.jar
 
 # 设置权限
-RUN chown appuser:appuser app.jar
+RUN chown appuser:appuser app.jar && \
+    chown appuser:appuser /app/logs
 
 # 切换到非root用户
 USER appuser
@@ -51,4 +56,4 @@ EXPOSE 8081
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
   CMD curl -f http://localhost:8081/actuator/health || exit 1
 
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Dlogging.file.path=/app/logs -jar app.jar"]
