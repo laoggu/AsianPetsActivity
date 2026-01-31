@@ -23,6 +23,8 @@ services:
       - "8081:8081"  # 映射端口便于调试
     env_file:
       - .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       # 连接服务器本地数据库
