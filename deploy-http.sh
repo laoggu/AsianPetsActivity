@@ -36,7 +36,12 @@ mkdir -p /opt/AsianPetsActivity
 
 # 复制项目文件到部署目录
 echo "📋 复制项目文件..."
-cp -r ./src ./nginx ./Dockerfile ./docker-compose.prod.yml ./.env /opt/AsianPetsActivity/
+# 检查是否已经在目标目录中
+if [ "$(pwd)" != "/opt/AsianPetsActivity" ]; then
+    cp -r ./src ./nginx ./Dockerfile ./docker-compose.prod.yml ./.env /opt/AsianPetsActivity/
+else
+    echo "✅ 已在正确目录，跳过文件复制"
+fi
 
 # 复制Nginx配置
 echo "🔧 配置Nginx..."

@@ -27,11 +27,14 @@ fi
 
 # 检查SSL证书文件
 echo "🔍 检查SSL证书文件..."
-if [ ! -f "/opt/ssl/*.pem" ] || [ ! -f "/opt/ssl/*.key" ]; then
+if ! ls /opt/ssl/*.pem 1> /dev/null 2>&1 || ! ls /opt/ssl/*.key 1> /dev/null 2>&1; then
     echo "❌ 请先将阿里云SSL证书文件上传到 /opt/ssl/ 目录"
     echo "需要的文件："
     echo "  - 证书文件 (*.pem)"
     echo "  - 私钥文件 (*.key)"
+    echo ""
+    echo "当前 /opt/ssl/ 目录内容："
+    ls -la /opt/ssl/
     exit 1
 fi
 
