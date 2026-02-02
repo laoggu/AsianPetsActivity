@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8081:8081"
+    env_file: .env
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:mysql://10.0.0.10:3306/asian_pets_system
+      - SPRING_DATASOURCE_USERNAME=AsainPetsAdmin
+      - SPRING_DATASOURCE_PASSWORD=Yk731207
+      - SERVER_PORT=8081
+      - JWT_SECRET=${JWT_SECRET}
+    networks:
+      - asianpets-network
+    restart: unless-stopped
+
+networks:
+  asianpets-network:
+    driver: bridge
