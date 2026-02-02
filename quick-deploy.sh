@@ -12,6 +12,10 @@ echo "🚀 开始一键部署亚洲宠物协会系统..."
 echo "域名: cailanzikzh.xin"
 echo "服务器IP: 101.43.57.35"
 
+# 确保所有脚本都有执行权限
+echo "🔧 设置脚本执行权限..."
+chmod +x *.sh 2>/dev/null || echo "⚠️  部分脚本权限设置失败，继续执行..."
+
 # 检查是否在正确目录
 if [ ! -f "docker-compose.prod.yml" ]; then
     echo "❌ 请在项目根目录执行此脚本"
