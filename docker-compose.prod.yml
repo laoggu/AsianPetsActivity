@@ -7,6 +7,7 @@ services:
     volumes:
       - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/logs:/var/log/nginx
+      - ./nginx/ssl:/opt/ssl:ro
     depends_on:
       - app
     networks:
