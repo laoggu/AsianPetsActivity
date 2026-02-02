@@ -21,8 +21,8 @@ services:
       - "8081:8081"  # 映射端口便于调试
     env_file:
       - .env
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
     # network_mode: "host"  # 如果host模式有问题，注释掉这行
     environment:
       - SPRING_PROFILES_ACTIVE=prod
