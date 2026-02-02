@@ -55,7 +55,12 @@ mkdir -p /opt/ssl
 
 # 复制项目文件
 echo "📋 复制项目文件..."
-cp -r ./src ./nginx ./Dockerfile ./docker-compose.prod.yml ./.env /opt/AsianPetsActivity/
+# 检查是否已经在目标目录中
+if [ "$(pwd)" != "/opt/AsianPetsActivity" ]; then
+    cp -r ./src ./nginx ./Dockerfile ./docker-compose.prod.yml ./.env /opt/AsianPetsActivity/
+else
+    echo "✅ 已在正确目录，跳过文件复制"
+fi
 
 # 使用阿里云证书配置
 echo "🔧 配置Nginx使用阿里云证书..."
