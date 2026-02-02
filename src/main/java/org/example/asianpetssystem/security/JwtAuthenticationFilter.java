@@ -33,14 +33,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     // 白名单路径 - 这些路径不需要JWT认证
     private static final List<String> WHITE_LIST_PATHS = Arrays.asList(
-        "/api/auth/",           // 认证接口
-        "/api/member/apply",    // 会员申请接口
-        "/api/member/upload",   // 文件上传接口
-        "/api/common/",         // 通用接口
-        "/swagger-ui/",         // Swagger UI
-        "/v3/api-docs/",        // API文档
-        "/webjars/",            // WebJars静态资源
-        "/actuator/"            // 健康检查等监控端点
+        "/api/auth/",              // 认证接口
+        "/api/member/apply",       // 会员申请接口
+        "/api/member/upload",      // 文件上传接口
+        "/api/common/",            // 通用接口
+        "/swagger-ui/",            // Swagger UI
+        "/v3/api-docs/",           // API文档
+        "/webjars/",               // WebJars静态资源
+        "/swagger-resources/",     // Swagger资源
+        "/actuator/",              // 健康检查等监控端点
+        "/favicon.ico"             // 网站图标
     );
 
     @Override
@@ -101,6 +103,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      * @return 是否在白名单中
      */
     private boolean isWhitelistedPath(String requestURI) {
+        // 精确匹配根路径
+        if ("/".equals(requestURI)) {
+            return true;
+        }
+        
+        // 前缀匹配其他路径
         return WHITE_LIST_PATHS.stream()
             .anyMatch(path -> requestURI.startsWith(path));
     }

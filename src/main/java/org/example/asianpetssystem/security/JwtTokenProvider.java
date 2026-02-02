@@ -20,7 +20,7 @@ public class JwtTokenProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
-    @Value("${jwt.secret:asianpetsystemsecretkeyforasiapetassociation}")
+    @Value("${jwt.secret:xK9mN2pQ8vR4sL7wE1yU3iO6aH5jF0gB}")
     private String jwtSecret;
 
     @Value("${jwt.expiration:86400}") // 默认24小时

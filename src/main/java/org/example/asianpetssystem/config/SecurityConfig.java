@@ -81,7 +81,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/common/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/webjars/**").permitAll()
-                        .requestMatchers("/actuator/**").permitAll() // 添加健康检查端点豁免
+                        .requestMatchers("/swagger-resources/**", "/swagger-ui.html", "/favicon.ico").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("/").permitAll() // 根路径豁免
                         .anyRequest().authenticated()
                 );
 
