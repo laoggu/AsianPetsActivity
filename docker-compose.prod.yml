@@ -23,10 +23,11 @@ services:
       - .env
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    # network_mode: "host"  # 如果host模式有问题，注释掉这行
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       # 连接服务器本地数据库
-      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/asian_pets_system
+      - SPRING_DATASOURCE_URL=jdbc:mysql://10.0.0.10:3306/asian_pets_system
       - SPRING_DATASOURCE_USERNAME=AsainPetsAdmin
       - SPRING_DATASOURCE_PASSWORD=Yk731207
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
