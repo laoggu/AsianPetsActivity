@@ -17,6 +17,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -29,16 +31,36 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    // 白名单路径 - 这些路径不需要JWT认证
+    private static final List<String> WHITE_LIST_PATHS = Arrays.asList(
+        "/api/auth/",           // 认证接口
+        "/api/member/apply",    // 会员申请接口
+        "/api/member/upload",   // 文件上传接口
+        "/api/common/",         // 通用接口
+        "/swagger-ui/",         // Swagger UI
+        "/v3/api-docs/",        // API文档
+        "/webjars/",            // WebJars静态资源
+        "/actuator/"            // 健康检查等监控端点
+    );
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
         try {
-            String jwt = parseJwt(request);
             String requestURI = request.getRequestURI();
             String method = request.getMethod();
             
+            // 检查是否在白名单路径中
+            if (isWhitelistedPath(requestURI)) {
+                logger.debug("跳过JWT认证 - URI在白名单中: {}, Method: {}", requestURI, method);
+                filterChain.doFilter(request, response);
+                return;
+            }
+            
             logger.debug("开始JWT认证过滤 - URI: {}, Method: {}", requestURI, method);
+            
+            String jwt = parseJwt(request);
             
             if (jwt != null && jwtTokenProvider.validateToken(jwt)) {
                 String username = jwtTokenProvider.getUsernameFromToken(jwt);
@@ -71,5 +93,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         return null;
+    }
+    
+    /**
+     * 检查请求路径是否在白名单中
+     * @param requestURI 请求URI
+     * @return 是否在白名单中
+     */
+    private boolean isWhitelistedPath(String requestURI) {
+        return WHITE_LIST_PATHS.stream()
+            .anyMatch(path -> requestURI.startsWith(path));
     }
 }

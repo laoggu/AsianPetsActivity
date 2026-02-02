@@ -80,7 +80,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/member/apply", "/api/member/upload").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/common/**").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/webjars/**").permitAll() // 添加这行
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/webjars/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll() // 添加健康检查端点豁免
                         .anyRequest().authenticated()
                 );
 
