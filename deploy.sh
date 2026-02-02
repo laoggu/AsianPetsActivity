@@ -63,5 +63,5 @@ else
 fi
 
 echo "🎉 部署完成！"
-echo "应用查看地址: http://你的服务器IP/swagger-ui/index.html"
-echo "健康检查: http://你的服务器IP/health"
+echo "应用查看地址: http://101.43.57.35/swagger-ui/index.html"
+echo "健康检查: http://101.43.57.35/health"
