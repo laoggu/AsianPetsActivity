@@ -13,9 +13,11 @@
 # Build
 build
 .gradle
-gradlew
-gradlew.bat
-gradle
+
+# Gradle Wrapper - 构建需要，不排除
+# gradlew
+# gradlew.bat
+# gradle
 
 # Logs
 logs
