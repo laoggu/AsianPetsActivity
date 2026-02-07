@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
@@ -17,4 +19,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Page<Member> findByStatus(MemberStatus status, Pageable pageable);
 
     boolean existsByCreditCode(String creditCode);
+
+    List<Member> findByExpireAtBetween(LocalDateTime start, LocalDateTime end);
 }

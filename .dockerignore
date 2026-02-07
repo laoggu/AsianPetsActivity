@@ -1,0 +1,64 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE
+.idea
+.vscode
+*.iml
+*.ipr
+*.iws
+
+# Build
+build
+.gradle
+gradlew
+gradlew.bat
+gradle
+
+# Logs
+logs
+*.log
+log.txt
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Documentation
+*.md
+!README.md
+DEPLOYMENT_GUIDE.md
+LOCAL_NGINX_DEPLOYMENT.md
+SERVER_DEPLOYMENT_GUIDE.md
+DOCKER_DEPLOYMENT.md
+docs
+
+# Scripts
+*.sh
+*.bat
+
+# Uploads & Data
+uploads/*
+!uploads/.gitkeep
+db
+
+# Nginx logs
+nginx/logs/*
+!nginx/logs/.gitkeep
+
+# Test
+test
+src/test
+
+# Misc
+.env
+.env.local
+.env.*.local
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db

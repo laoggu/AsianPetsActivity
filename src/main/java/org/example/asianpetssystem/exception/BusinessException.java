@@ -19,6 +19,12 @@ public class BusinessException extends RuntimeException {
         this.message = message;
     }
 
+    public BusinessException(BusinessErrorEnum errorEnum, String message) {
+        super(message);
+        this.code = errorEnum.getCode();
+        this.message = message;
+    }
+
     public int getCode() {
         return code;
     }

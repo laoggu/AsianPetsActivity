@@ -1,0 +1,51 @@
+root@VM-0-10-ubuntu:/# sudo systemctl status nginx.service
+ nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/usr/lib/systemd/system/nginx.service; disabled; preset: enabled)
+     Active: failed (Result: exit-code) since Mon 2026-02-02 21:54:21 CST; 3min 4s ago
+       Docs: man:nginx(8)
+    Process: 1243211 ExecStartPre=/usr/sbin/nginx -t -q -g daemon on; master_process on; (code=exited, status=0/SUCCESS)
+    Process: 1243213 ExecStart=/usr/sbin/nginx -g daemon on; master_process on; (code=exited, status=1/FAILURE)
+        CPU: 21ms
+
+Feb 02 21:54:20 VM-0-10-ubuntu nginx[1243213]: 2026/02/02 21:54:19 [emerg] 1243213#1243213: bind() to 0.0.0.0:80 failed (98: Address>
+Feb 02 21:54:20 VM-0-10-ubuntu nginx[1243213]: 2026/02/02 21:54:19 [emerg] 1243213#1243213: bind() to 0.0.0.0:443 failed (98: Addres>
+Feb 02 21:54:20 VM-0-10-ubuntu nginx[1243213]: 2026/02/02 21:54:19 [emerg] 1243213#1243213: bind() to 0.0.0.0:80 failed (98: Address>
+Feb 02 21:54:20 VM-0-10-ubuntu nginx[1243213]: 2026/02/02 21:54:19 [emerg] 1243213#1243213: bind() to 0.0.0.0:443 failed (98: Addres>
+Feb 02 21:54:21 VM-0-10-ubuntu nginx[1243213]: 2026/02/02 21:54:19 [emerg] 1243213#1243213: bind() to 0.0.0.0:80 failed (98: Address>
+Feb 02 21:54:21 VM-0-10-ubuntu nginx[1243213]: 2026/02/02 21:54:19 [emerg] 1243213#1243213: bind() to 0.0.0.0:443 failed (98: Addres>
+Feb 02 21:54:21 VM-0-10-ubuntu nginx[1243213]: 2026/02/02 21:54:19 [emerg] 1243213#1243213: still could not bind()
+Feb 02 21:54:21 VM-0-10-ubuntu systemd[1]: nginx.service: Control process exited, code=exited, status=1/FAILURE
+Feb 02 21:54:21 VM-0-10-ubuntu systemd[1]: nginx.service: Failed with result 'exit-code'.
+Feb 02 21:54:21 VM-0-10-ubuntu systemd[1]: Failed to start nginx.service - A high performance web server and a reverse proxy server.
+
+
+root@VM-0-10-ubuntu:/# sudo journalctl -xeu nginx.service
+Feb 02 21:54:20 VM-0-10-ubuntu nginx[1243213]: 2026/02/02 21:54:19 [emerg] 1243213#1243213: bind() to 0.0.0.0:443 failed (98: Addres>
+Feb 02 21:54:20 VM-0-10-ubuntu nginx[1243213]: 2026/02/02 21:54:19 [emerg] 1243213#1243213: bind() to 0.0.0.0:80 failed (98: Address>
+Feb 02 21:54:20 VM-0-10-ubuntu nginx[1243213]: 2026/02/02 21:54:19 [emerg] 1243213#1243213: bind() to 0.0.0.0:443 failed (98: Addres>
+Feb 02 21:54:21 VM-0-10-ubuntu nginx[1243213]: 2026/02/02 21:54:19 [emerg] 1243213#1243213: bind() to 0.0.0.0:80 failed (98: Address>
+Feb 02 21:54:21 VM-0-10-ubuntu nginx[1243213]: 2026/02/02 21:54:19 [emerg] 1243213#1243213: bind() to 0.0.0.0:443 failed (98: Addres>
+Feb 02 21:54:21 VM-0-10-ubuntu nginx[1243213]: 2026/02/02 21:54:19 [emerg] 1243213#1243213: still could not bind()
+Feb 02 21:54:21 VM-0-10-ubuntu systemd[1]: nginx.service: Control process exited, code=exited, status=1/FAILURE
+░░ Subject: Unit process exited
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░
+░░ An ExecStart= process belonging to unit nginx.service has exited.
+░░
+░░ The process' exit code is 'exited' and its exit status is 1.
+Feb 02 21:54:21 VM-0-10-ubuntu systemd[1]: nginx.service: Failed with result 'exit-code'.
+░░ Subject: Unit failed
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░
+░░ The unit nginx.service has entered the 'failed' state with result 'exit-code'.
+Feb 02 21:54:21 VM-0-10-ubuntu systemd[1]: Failed to start nginx.service - A high performance web server and a reverse proxy server.
+░░ Subject: A start job for unit nginx.service has failed
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░
+░░ A start job for unit nginx.service has finished with a failure.
+░░
+░░ The job identifier is 62838 and the job result is failed.
+

@@ -42,9 +42,25 @@ dependencies {
     // MySQL
     runtimeOnly 'com.mysql:mysql-connector-j'
     
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    
     // Apache POI for Excel
     implementation 'org.apache.poi:poi:5.2.4'
     implementation 'org.apache.poi:poi-ooxml:5.2.4'
+    
+    // ZXing for QR Code
+    implementation 'com.google.zxing:core:3.5.2'
+    implementation 'com.google.zxing:javase:3.5.2'
+    
+    // Apache PDFBox for PDF watermark
+    implementation 'org.apache.pdfbox:pdfbox:2.0.29'
+    
+    // Servlet API
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    
+    // Jakarta Annotation API
+    implementation 'jakarta.annotation:jakarta.annotation-api:2.1.1'
     
     // Lombok
     compileOnly 'org.projectlombok:lombok'

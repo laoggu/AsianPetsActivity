@@ -6,6 +6,8 @@ import java.util.List;
 
 @Data
 public class LevelRightsResponse {
+
     private String level;
-    private List<String> rights;
+    private String levelName;
+    private List<MemberRightResponse> rights;
 }

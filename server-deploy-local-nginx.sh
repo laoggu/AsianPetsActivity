@@ -70,7 +70,7 @@ cd /opt/AsianPetsActivity
 
 # 停止现有服务
 echo "⏹️ 停止现有Docker服务..."
-docker-compose -f docker-compose-local-nginx.yml down 2>/dev/null || echo "没有运行中的服务"
+docker-compose -f docker-compose.yml down 2>/dev/null || echo "没有运行中的服务"
 
 # 构建并启动Docker服务
 echo "🐳 构建并启动应用服务..."

@@ -28,6 +28,18 @@ public class AdminUser implements UserDetails {
     @Column(name = "role", nullable = false)
     private String role; // ADMIN, CONTENT, MEMBER, ACTIVITY
 
+    @Column(name = "role_id")
+    private Long roleId; // 角色ID
+
+    @Column(name = "real_name", length = 50)
+    private String realName; // 真实姓名
+
+    @Column(name = "mobile", length = 20)
+    private String mobile; // 手机号
+
+    @Column(name = "email", length = 100)
+    private String email; // 邮箱
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
