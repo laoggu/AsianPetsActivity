@@ -7,60 +7,28 @@
 .idea
 .vscode
 *.iml
-*.ipr
-*.iws
 
-# Build
+# Build输出目录
 build
 .gradle
 
-# Gradle Wrapper - 构建需要，不排除
-# gradlew
-# gradlew.bat
-# gradle
-
-# Logs
-logs
-*.log
-log.txt
-
-# Docker
+# Docker相关
 Dockerfile
 docker-compose*.yml
-.dockerignore
 
-# Documentation
+# 文档
 *.md
-!README.md
-DEPLOYMENT_GUIDE.md
-LOCAL_NGINX_DEPLOYMENT.md
-SERVER_DEPLOYMENT_GUIDE.md
-DOCKER_DEPLOYMENT.md
 docs
 
-# Scripts
-*.sh
-*.bat
-
-# Uploads & Data
+# 日志和数据
+logs
+log.txt
 uploads/*
-!uploads/.gitkeep
-db
-
-# Nginx logs
 nginx/logs/*
-!nginx/logs/.gitkeep
 
-# Test
-test
+# 测试代码
 src/test
 
-# Misc
-.env
-.env.local
-.env.*.local
-*.swp
-*.swo
-*~
+# 系统文件
 .DS_Store
 Thumbs.db

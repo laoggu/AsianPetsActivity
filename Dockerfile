@@ -31,9 +31,9 @@ FROM eclipse-temurin:17-jre-focal
 
 WORKDIR /app
 
-# 创建日志目录并设置权限
-RUN mkdir -p /app/logs && \
-    chmod 777 /app/logs
+# 创建日志和上传目录并设置权限
+RUN mkdir -p /app/logs /app/uploads && \
+    chmod 777 /app/logs /app/uploads
 
 # 创建非root用户
 RUN groupadd -r appuser && useradd -r -g appuser appuser
@@ -42,8 +42,7 @@ RUN groupadd -r appuser && useradd -r -g appuser appuser
 COPY --from=builder /app/build/libs/*.jar app.jar
 
 # 设置权限
-RUN chown appuser:appuser app.jar && \
-    chown appuser:appuser /app/logs
+RUN chown -R appuser:appuser /app
 
 # 切换到非root用户
 USER appuser
